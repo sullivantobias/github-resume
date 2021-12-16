@@ -1,9 +1,9 @@
 # Github Resume 
 
 ## Stack 
-    - React 
-    - GraphQL 
-    - Apollo
+- React 
+- GraphQL 
+- Apollo
 
 # Getting Started with Create React App
 
