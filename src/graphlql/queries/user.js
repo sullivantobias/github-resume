@@ -14,9 +14,3 @@ const USER_QUERY = gql`
 `;
 
 export default USER_QUERY;
-
-
-
-
-
-
