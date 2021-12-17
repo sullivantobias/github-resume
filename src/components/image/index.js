@@ -1,10 +1,15 @@
-import React from "react";
+import React, { memo } from "react";
 
 import './index.scss';
 
+/**
+ *
+ * @param props
+ * @returns {JSX.Element}
+ */
 const Image = ({ props }) =>
-    <div className="cmp-image">
-        <img alt={props.alt} {...props} />
+    props.src && <div className="cmp-image">
+        <img alt={ props.alt } { ...props } />
     </div>
 
-export default Image;
+export default memo(Image);

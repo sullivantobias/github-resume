@@ -1,6 +1,13 @@
 import React from 'react';
 import { useQuery } from "@apollo/client";
 
+/**
+ *
+ * @param children
+ * @param query
+ * @param variables
+ * @returns {JSX.Element|*}
+ */
 const Query = ({ children, query, variables }) => {
     const { data, loading, error } = useQuery(query, {
         variables
@@ -11,7 +18,7 @@ const Query = ({ children, query, variables }) => {
         return (
             <p>
                 Error:
-                {JSON.stringify(error)}
+                { JSON.stringify(error) }
             </p>
         );
     }
