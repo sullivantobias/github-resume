@@ -7,8 +7,8 @@ import './index.scss';
  * @param items
  * @returns {JSX.Element}
  */
-const Cards = ({ items }) =>
-    <div className="cmp-cards">
+const RepoCards = ({ items }) =>
+    <div className="cmp-repo-cards">
         { items &&
             items.map(
                 ({
@@ -20,10 +20,10 @@ const Cards = ({ items }) =>
                      languages: { edges }
                  },
                  index
-                ) => <div key={ index } className="cmp-cards__item">
-                    <a className="cmp-cards__item__url" href={ url }>{ name }</a>
-                    <span className="cmp-cards__item__desc">{ shortDescriptionHTML }</span>
-                    <div className="cmp-cards__item__languages">
+                ) => <div key={ index } className="cmp-repo-cards__item">
+                    <a className="cmp-repo-cards__item__url" href={ url }>{ name }</a>
+                    <span className="cmp-repo-cards__item__desc">{ shortDescriptionHTML }</span>
+                    <div className="cmp-repo-cards__item__languages">
                         { edges && edges.map(({ node: { name } }, index) =>
                             <span
                                 key={ index }
@@ -32,10 +32,10 @@ const Cards = ({ items }) =>
                             </span>
                         ) }
                     </div>
-                    <span className="cmp-cards__item__forkCount">{ forkCount }</span>
-                    <span className="cmp-cards__item__stargazers">stargazers: { totalCount }</span>
+                    <span className="cmp-repo-cards__item__forkCount">{ forkCount }</span>
+                    <span className="cmp-repo-cards__item__stargazers">stargazers: { totalCount }</span>
                 </div>
             ) }
     </div>
 
-export default memo(Cards);
+export default memo(RepoCards);

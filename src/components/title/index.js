@@ -1,7 +1,5 @@
 import React, { memo } from "react";
 
-import './index.scss';
-
 /**
  *
  * @param title

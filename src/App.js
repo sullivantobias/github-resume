@@ -1,11 +1,18 @@
 import React, { Fragment, useState, useRef } from 'react';
+
 import Query from "./graphql/query";
+
 import USER_QUERY from "./graphql/queries/user";
-import Title from './components/title';
-import Image from './components/image';
 import Text from './components/text';
-import Cards from "./components/cards";
+import RepoCards from "./components/cards/repo";
 import GithubCalendar from "./components/github-calendar";
+import Header from "./components/header";
+import SimpleCard from "./components/cards/simple";
+import { GoGitCommit, GoIssueOpened, GoGitPullRequest, GoRepoPull } from "react-icons/go";
+import { IoIosLogOut } from "react-icons/io";
+
+import './commons/styles/app.scss';
+import Title from "./components/title";
 
 const App = () => {
     const [username, setUsername] = useState('')
@@ -30,6 +37,15 @@ const App = () => {
                             bio,
                             location,
                             websiteUrl,
+                            contributionsCollection: {
+                                contributionCalendar: {
+                                    totalContributions
+                                },
+                                totalCommitContributions,
+                                totalIssueContributions,
+                                totalPullRequestContributions,
+                                totalRepositoriesWithContributedPullRequests
+                            },
                             createdAt,
                             followers,
                             following,
@@ -41,21 +57,50 @@ const App = () => {
 
                         return (
                             <Fragment>
-                                <Title tag={ 1 } title={ name }/>
-                                <Image props={ { src: avatarUrl, alt: name } }/>
-                                <Text text={ bio }/>
+                                <Header
+                                    logoutElement={
+                                        <IoIosLogOut
+                                            onClick={ () => setUsername(undefined) }
+                                        />
+                                    }
+                                    name={ name }
+                                    avatar={ avatarUrl }/>
+                                <div className="content">
+                                    <div className="content__left">
+                                        <SimpleCard value={ totalContributions || 'Zero' }
+                                                    text='Total Contributions'
+                                                    desc='All your contributions from the past year'
+                                                    isBig/>
+                                        <Title title="Details" tag={ 4 }/>
+                                        <SimpleCard icon={ <GoGitCommit/> }
+                                                    value={ totalCommitContributions || 'Zero' }
+                                                    text='Commits'/>
+                                        <SimpleCard icon={ <GoIssueOpened/> }
+                                                    value={ totalIssueContributions || 'Zero' }
+                                                    text='Issues'/>
+                                        <SimpleCard icon={ <GoGitPullRequest/> }
+                                                    value={ totalPullRequestContributions || 'Zero' }
+                                                    text='Pull Requests'/>
+                                        <SimpleCard icon={ <GoRepoPull/> }
+                                                    value={ totalRepositoriesWithContributedPullRequests || 'Zero' }
+                                                    text='Repositories'/>
+                                    </div>
+                                    <div className="content__right">
+                                        <Text text={ bio }/>
+                                        { nodes && <RepoCards items={ nodes }/> }
+                                        <span>Followers { followers.totalCount }</span>
+                                        <span>Followers { following.totalCount }</span>
 
-                                { nodes && <Cards items={ nodes }/> }
-                                <span>Followers { followers.totalCount }</span>
-                                <span>Followers { following.totalCount }</span>
+                                        <div>
+                                            <span>{ location }</span>
+                                            <span>{ websiteUrl }</span>
+                                        </div>
+                                        <span>Creation: { fullDate }</span>
+                                    </div>
 
-                                <div>
-                                    <span>{ location }</span>
-                                    <span>{ websiteUrl }</span>
+                                    <GithubCalendar username={ username }/>
                                 </div>
-                                <span>Creation: { fullDate }</span>
 
-                                <GithubCalendar username={ username }/>
                             </Fragment>
                         )
                     } }
