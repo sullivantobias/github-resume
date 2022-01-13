@@ -46,6 +46,19 @@
                 .cmp-repo-cards__item {
                     flex-basis: 100%;
                 }
+
+                .more {
+                    font-style: italic;
+
+                    .profile, .followers, .location, .member, .website {
+                        display: flex;
+                        align-items: center;
+
+                        .cmp-text {
+                            margin: 0 0 0 10px;
+                        }
+                    }
+                }
             }
 
             &__bottom {

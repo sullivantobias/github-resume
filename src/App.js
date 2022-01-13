@@ -9,10 +9,13 @@ import Header from "./components/header";
 import SimpleCard from "./components/cards/simple";
 import Title from "./components/title";
 
-import { GoGitCommit, GoIssueOpened, GoGitPullRequest, GoRepoPull } from "react-icons/go";
-import { IoIosLogOut } from "react-icons/io";
+import { GoGitCommit, GoIssueOpened, GoGitPullRequest, GoRepoPull, GoOrganization, GoLink } from "react-icons/go";
+import { IoIosLogOut, IoMdMap } from "react-icons/io";
+import { MdOutlineRememberMe } from "react-icons/md";
+import { CgWebsite } from "react-icons/cg";
 
 import './commons/styles/app.scss';
+import Text from "./components/text";
 
 const App = () => {
     const [username, setUsername] = useState('')
@@ -35,6 +38,7 @@ const App = () => {
                             name,
                             avatarUrl,
                             bio,
+                            url,
                             location,
                             websiteUrl,
                             contributionsCollection: {
@@ -69,15 +73,17 @@ const App = () => {
                                     name={ name }
                                     avatar={ avatarUrl }/>
                                 <div className="content">
-                                    <blockquote className="content__bio">
-                                        <p>{ bio }</p>
-                                    </blockquote>
+                                    { bio &&
+                                        <blockquote className="content__bio">
+                                            <p>{ bio }</p>
+                                        </blockquote>
+                                    }
                                     <div className="content__left">
                                         <SimpleCard value={ totalContributions || 'Zero' }
                                                     text='Total Contributions'
                                                     desc='All the contributions from the past year'
                                                     isBig/>
-                                        <Title title="Details Contributions" tag={ 5 }/>
+                                        <Title title="Details" tag={ 5 }/>
                                         <SimpleCard icon={ <GoGitCommit/> }
                                                     value={ totalCommitContributions || 'Zero' }
                                                     text='Commits'/>
@@ -90,6 +96,30 @@ const App = () => {
                                         <SimpleCard icon={ <GoRepoPull/> }
                                                     value={ totalRepositoriesWithContributedPullRequests || 'Zero' }
                                                     text='Repositories'/>
+                                        <Title title="More" tag={ 5 }/>
+                                        <div className="more">
+                                            <div className="followers">
+                                                <GoOrganization/>
+                                                <Text
+                                                    text={ `${ followers.totalCount } followers - ${ following.totalCount } following` }/>
+                                            </div>
+                                            <div className="profile">
+                                                <GoLink/>
+                                                <Text link={ url } text={ url }/>
+                                            </div>
+                                            <div className="website">
+                                                <CgWebsite/>
+                                                <Text link={ websiteUrl } text={ websiteUrl }/>
+                                            </div>
+                                            <div className="location">
+                                                <IoMdMap/>
+                                                <Text text={ location }/>
+                                            </div>
+                                            <div className="member">
+                                                <MdOutlineRememberMe/>
+                                                <Text text={ fullDate }/>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div className="content__right">
                                         <SimpleCard value={ totalCount || 'Zero' }
@@ -97,7 +127,7 @@ const App = () => {
                                                     desc='All the repositories from the account'
                                                     isBig/>
                                         <Title title="Pinned Repositories" tag={ 5 }/>
-                                        { nodes && <RepoCards items={ nodes }/> }
+                                        { nodes && <RepoCards items={ nodes.slice(0, 3) }/> }
                                     </div>
 
                                     <div className="content__bottom">
@@ -108,7 +138,8 @@ const App = () => {
                             </Fragment>
                         )
                     } }
-                </Query> : contributionDom()
+                </Query>
+                : contributionDom()
             }
         </div>
     );
