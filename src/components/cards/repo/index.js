@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-
+import { GoStar, GoRepoForked } from "react-icons/go";
 import './index.scss';
 
 /**
@@ -24,16 +24,25 @@ const RepoCards = ({ items }) =>
                     <a className="cmp-repo-cards__item__url" href={ url }>{ name }</a>
                     <span className="cmp-repo-cards__item__desc">{ shortDescriptionHTML }</span>
                     <div className="cmp-repo-cards__item__languages">
-                        { edges && edges.map(({ node: { name } }, index) =>
-                            <span
-                                key={ index }
-                                className="language_name">
-                                { name }
+                        { edges && edges.slice(0, 4).map(({ node: { name, color } }, index) =>
+                                <div className='language__wrapper'>
+                                    <span className="language__color" style={ { backgroundColor: color } }/>
+                                    <span
+                                        key={ index }
+                                        className="language__name">
+                        { name }
                             </span>
+                                </div>
                         ) }
                     </div>
-                    <span className="cmp-repo-cards__item__forkCount">{ forkCount }</span>
-                    <span className="cmp-repo-cards__item__stargazers">stargazers: { totalCount }</span>
+                    <div className="cmp-repo-cards__item__bottom">
+                        <div className="cmp-repo-cards__item__stargazers">
+                            <GoStar/>{ totalCount }
+                        </div>
+                        <div className="cmp-repo-cards__item__forkCount">
+                            <GoRepoForked/>{ forkCount }
+                        </div>
+                    </div>
                 </div>
             ) }
     </div>

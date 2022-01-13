@@ -3,16 +3,16 @@ import React, { Fragment, useState, useRef } from 'react';
 import Query from "./graphql/query";
 
 import USER_QUERY from "./graphql/queries/user";
-import Text from './components/text';
 import RepoCards from "./components/cards/repo";
 import GithubCalendar from "./components/github-calendar";
 import Header from "./components/header";
 import SimpleCard from "./components/cards/simple";
+import Title from "./components/title";
+
 import { GoGitCommit, GoIssueOpened, GoGitPullRequest, GoRepoPull } from "react-icons/go";
 import { IoIosLogOut } from "react-icons/io";
 
 import './commons/styles/app.scss';
-import Title from "./components/title";
 
 const App = () => {
     const [username, setUsername] = useState('')
@@ -46,6 +46,9 @@ const App = () => {
                                 totalPullRequestContributions,
                                 totalRepositoriesWithContributedPullRequests
                             },
+                            repositories: {
+                                totalCount
+                            },
                             createdAt,
                             followers,
                             following,
@@ -66,12 +69,15 @@ const App = () => {
                                     name={ name }
                                     avatar={ avatarUrl }/>
                                 <div className="content">
+                                    <blockquote className="content__bio">
+                                        <p>{ bio }</p>
+                                    </blockquote>
                                     <div className="content__left">
                                         <SimpleCard value={ totalContributions || 'Zero' }
                                                     text='Total Contributions'
-                                                    desc='All your contributions from the past year'
+                                                    desc='All the contributions from the past year'
                                                     isBig/>
-                                        <Title title="Details" tag={ 4 }/>
+                                        <Title title="Details Contributions" tag={ 5 }/>
                                         <SimpleCard icon={ <GoGitCommit/> }
                                                     value={ totalCommitContributions || 'Zero' }
                                                     text='Commits'/>
@@ -86,19 +92,17 @@ const App = () => {
                                                     text='Repositories'/>
                                     </div>
                                     <div className="content__right">
-                                        <Text text={ bio }/>
+                                        <SimpleCard value={ totalCount || 'Zero' }
+                                                    text='Total Repositories'
+                                                    desc='All the repositories from the account'
+                                                    isBig/>
+                                        <Title title="Pinned Repositories" tag={ 5 }/>
                                         { nodes && <RepoCards items={ nodes }/> }
-                                        <span>Followers { followers.totalCount }</span>
-                                        <span>Followers { following.totalCount }</span>
-
-                                        <div>
-                                            <span>{ location }</span>
-                                            <span>{ websiteUrl }</span>
-                                        </div>
-                                        <span>Creation: { fullDate }</span>
                                     </div>
 
-                                    <GithubCalendar username={ username }/>
+                                    <div className="content__bottom">
+                                        <GithubCalendar username={ username }/>
+                                    </div>
                                 </div>
 
                             </Fragment>

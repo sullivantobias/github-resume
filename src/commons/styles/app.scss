@@ -1,15 +1,36 @@
+@import './colors';
+
 #root {
     .app {
         .content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 6vw;
+            padding: 6vw;
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
+            justify-content: space-evenly;
+            background-color: $lighter-gray;
+
+            &__bio {
+                display: flex;
+                flex-basis: 100%;
+                background: $gray;
+                border-left: 10px solid #ccc;
+                margin: 1.5em 10px;
+                padding: 0.5em 10px;
+                font-style: italic;
+                font-weight: bold;
+
+                &:before {
+                    color: $darker-gray;
+                    content: open-quote;
+                    font-size: 4em;
+                    line-height: 0.1em;
+                    margin-right: 0.25em;
+                }
+            }
 
             &__left, &__right {
-                flex-basis: 45%;
+                max-width: 600px;
+                flex-basis: 50%;
                 display: flex;
                 height: fit-content;
                 flex-wrap: wrap;
@@ -18,11 +39,21 @@
                     flex-basis: 100%;
                 }
 
-                .cmp-simple-card {
+                .cmp-simple-card, .cmp-repo-cards__item {
                     margin: 0 10px 10px 0;
+                }
+
+                .cmp-repo-cards__item {
+                    flex-basis: 100%;
                 }
             }
 
+            &__bottom {
+                flex: 100%;
+                display: flex;
+                justify-content: center;
+                margin-top: 40px;
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ import './index.scss';
  * @returns {JSX.Element}
  */
 const GithubCalendar = ({ username }) =>
-    <GitHubCalendar username={ username }>
+    <GitHubCalendar hideTotalCount username={ username }>
         <ReactTooltip html/>
     </GitHubCalendar>
 
