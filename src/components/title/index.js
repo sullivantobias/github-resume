@@ -2,8 +2,8 @@ import React, { memo } from "react";
 
 /**
  *
- * @param title
- * @param tag
+ * @param {string} title
+ * @param {number} tag
  * @returns {JSX.Element}
  */
 const Title = ({ title, tag }) => {

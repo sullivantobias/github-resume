@@ -5,6 +5,14 @@ import Title from "../title";
 
 import './index.scss';
 
+/**
+ *
+ * @param {string} avatar
+ * @param {string} name
+ * @param {JSX.Element} logoutElement
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const Header = ({ avatar, name, logoutElement }) => {
     return (
         <header className="cmp-header">

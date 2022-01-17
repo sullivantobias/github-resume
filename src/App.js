@@ -8,15 +8,28 @@ import GithubCalendar from "./components/github-calendar";
 import Header from "./components/header";
 import SimpleCard from "./components/cards/simple";
 import Title from "./components/title";
+import Text from "./components/text";
 
-import { GoGitCommit, GoIssueOpened, GoGitPullRequest, GoRepoPull, GoOrganization, GoLink } from "react-icons/go";
+import {
+    GoGitCommit,
+    GoIssueOpened,
+    GoGitPullRequest,
+    GoRepoPull,
+    GoOrganization,
+    GoLink,
+    GoMarkGithub,
+    GoArrowLeft
+} from "react-icons/go";
 import { IoIosLogOut, IoMdMap } from "react-icons/io";
 import { MdOutlineRememberMe } from "react-icons/md";
 import { CgWebsite } from "react-icons/cg";
 
 import './commons/styles/app.scss';
-import Text from "./components/text";
 
+/**
+ * App
+ * @returns {JSX.Element}
+ */
 const App = () => {
     const [username, setUsername] = useState('')
     const input = useRef(undefined);
@@ -25,14 +38,19 @@ const App = () => {
 
     const contributionDom = () =>
         <form onSubmit={ handleSubmit }>
-            <input ref={ input } type="text" className="username"/>
+            <GoMarkGithub/>
+            <input placeholder='github username' ref={ input } type="text" className="username"/>
             <button type="submit" className="submit">Go</button>
         </form>
 
     return (
         <div className="app">
             { username ?
-                <Query query={ USER_QUERY } variables={ { username } }>
+                <Query query={ USER_QUERY } variables={ { username } } logoutElement={
+                    <div className='back' onClick={ () => setUsername(undefined) }>
+                        <GoArrowLeft/> get back to form
+                    </div>
+                }>
                     { ({ data: { user } }) => {
                         const {
                             name,
@@ -103,22 +121,26 @@ const App = () => {
                                                 <Text
                                                     text={ `${ followers.totalCount } followers - ${ following.totalCount } following` }/>
                                             </div>
-                                            <div className="profile">
+                                            { url && <div className="profile">
                                                 <GoLink/>
-                                                <Text link={ url } text={ url }/>
+                                                <Text link={ url } text={ url }/>}
                                             </div>
-                                            <div className="website">
+                                            }
+                                            { websiteUrl && <div className="website">
                                                 <CgWebsite/>
                                                 <Text link={ websiteUrl } text={ websiteUrl }/>
                                             </div>
-                                            <div className="location">
+                                            }
+                                            { location && <div className="location">
                                                 <IoMdMap/>
                                                 <Text text={ location }/>
                                             </div>
-                                            <div className="member">
+                                            }
+                                            { fullDate && <div className="member">
                                                 <MdOutlineRememberMe/>
                                                 <Text text={ fullDate }/>
                                             </div>
+                                            }
                                         </div>
                                     </div>
                                     <div className="content__right">

@@ -25,10 +25,9 @@ const RepoCards = ({ items }) =>
                     <span className="cmp-repo-cards__item__desc">{ shortDescriptionHTML }</span>
                     <div className="cmp-repo-cards__item__languages">
                         { edges && edges.slice(0, 4).map(({ node: { name, color } }, index) =>
-                                <div className='language__wrapper'>
+                                <div className='language__wrapper' key={ index }>
                                     <span className="language__color" style={ { backgroundColor: color } }/>
                                     <span
-                                        key={ index }
                                         className="language__name">
                         { name }
                             </span>

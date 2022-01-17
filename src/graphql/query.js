@@ -1,5 +1,7 @@
 import React from 'react';
 import { useQuery } from "@apollo/client";
+import Loader from "../components/loader";
+import Error from "../components/error";
 
 /**
  *
@@ -8,20 +10,13 @@ import { useQuery } from "@apollo/client";
  * @param variables
  * @returns {JSX.Element|*}
  */
-const Query = ({ children, query, variables }) => {
+const Query = ({ children, query, variables, logoutElement }) => {
     const { data, loading, error } = useQuery(query, {
         variables
     });
 
-    if (loading) return <p>Loading...</p>;
-    if (error) {
-        return (
-            <p>
-                Error:
-                { JSON.stringify(error) }
-            </p>
-        );
-    }
+    if (loading) return <Loader/>;
+    if (error) return <Error logoutElement={ logoutElement } message={ error.message }/>;
 
     return children({ data });
 };

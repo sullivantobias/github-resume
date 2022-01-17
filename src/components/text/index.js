@@ -4,8 +4,8 @@ import './index.scss';
 
 /**
  *
- * @param text
- * @param link
+ * @param {string} text
+ * @param {string} link
  * @returns {JSX.Element}
  */
 const Text = ({ text, link }) => link ?

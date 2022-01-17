@@ -8,10 +8,10 @@ import './index.scss';
 
 /**
  *
- * @param value
- * @param text
- * @param icon
- * @param isBig
+ * @param {number} value
+ * @param {string} text
+ * @param {svg} icon
+ * @param {boolean} isBig
  * @returns {JSX.Element}
  */
 const SimpleCard = ({ value, text, desc = '', icon, isBig = false }) =>
