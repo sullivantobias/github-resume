@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef } from 'react';
+import React, { Fragment, useState, useRef, useEffect } from 'react';
 
 import Query from "./graphql/query";
 
@@ -18,7 +18,8 @@ import {
     GoOrganization,
     GoLink,
     GoMarkGithub,
-    GoArrowLeft
+    GoArrowLeft,
+
 } from "react-icons/go";
 import { IoIosLogOut, IoMdMap } from "react-icons/io";
 import { MdOutlineRememberMe } from "react-icons/md";
@@ -32,19 +33,76 @@ import './commons/styles/app.scss';
  */
 const App = () => {
     const [username, setUsername] = useState('')
+    const [code, setCode] = useState(undefined)
+    const [token, setToken] = useState(undefined)
     const input = useRef(undefined);
+    const tokenInput = useRef(undefined);
 
-    const handleSubmit = () => setUsername(input.current.value);
+    const handleSubmit = event => {
+        event.preventDefault()
+        setUsername(input.current.value);
+    }
+
+    const handleToken = event => {
+        event.preventDefault()
+        const token = tokenInput.current.value;
+
+        if (token) {
+            setToken(token)
+            localStorage.setItem('token', token);
+        }
+    }
+
+    const handleCode = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const token = localStorage.getItem('token');
+
+        setCode(code);
+        setToken(token);
+    }
 
     const contributionDom = () =>
-        <form onSubmit={ handleSubmit }>
+        <form className="app-form" onSubmit={ handleSubmit }>
             <GoMarkGithub/>
-            <input placeholder='github username' ref={ input } type="text" className="username"/>
+            <input placeholder='Github username' ref={ input } type="text" className="username"/>
             <button type="submit" className="submit">Go</button>
         </form>
 
+    const tokenDom = () => {
+        return (
+            !token && !code ?
+                <div className="code">
+                    <a
+                        href={ `https://github.com/login/oauth/authorize?client_id=${ process.env.REACT_APP_CLIENT_ID }` }>
+                        Click here to auth
+                    </a>
+                    <Text
+                        text="Because github doesn't allow CORS Policy to call their API by JS, i'll did a workaround with two steps to do to use the APP. Enjoy."/>
+                </div>
+                :
+                !token &&
+                <form onSubmit={ handleToken } className="token">
+                    <a
+                        href={ `https://github.com/login/oauth/access_token?client_secret=${ process.env.REACT_APP_CLIENT_SECRET }&client_id=${ process.env.REACT_APP_CLIENT_ID }&code=${ code }` }>
+                        Get Access Token
+                    </a>
+                    <input pattern="gho_[0-9a-zA-Z]{36}" placeholder='Put your access token'
+                           ref={ tokenInput }
+                           type="text"
+                           className="token"/>
+                    <button type='submit'>Access The App</button>
+                </form>
+        )
+    }
+
+    useEffect(() => {
+        handleCode()
+    }, []);
+
     return (
         <div className="app">
+            { tokenDom() }
             { username ?
                 <Query query={ USER_QUERY } variables={ { username } } logoutElement={
                     <div className='back' onClick={ () => setUsername(undefined) }>
@@ -161,7 +219,7 @@ const App = () => {
                         )
                     } }
                 </Query>
-                : contributionDom()
+                : token && contributionDom()
             }
         </div>
     );

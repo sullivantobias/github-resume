@@ -8,9 +8,9 @@ import './index.scss';
 
 /**
  *
- * @param {number} value
+ * @param {number || string} value
  * @param {string} text
- * @param {svg} icon
+ * @param {JSX.Element} icon
  * @param {boolean} isBig
  * @returns {JSX.Element}
  */
