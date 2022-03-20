@@ -73,7 +73,7 @@ const App = () => {
             !token && !code ?
                 <div className="code">
                     <a
-                        href={ `https://github.com/login/oauth/authorize?client_id=${ process.env.REACT_APP_CLIENT_ID }` }>
+                        href={ `https://github.com/login/oauth/authorize?client_id=81985586e6b07c42ca38` }>
                         Click here to auth
                     </a>
                     <Text
@@ -83,7 +83,7 @@ const App = () => {
                 !token &&
                 <form onSubmit={ handleToken } className="token">
                     <a
-                        href={ `https://github.com/login/oauth/access_token?client_secret=${ process.env.REACT_APP_CLIENT_SECRET }&client_id=${ process.env.REACT_APP_CLIENT_ID }&code=${ code }` }>
+                        href={ `https://github.com/login/oauth/access_token?client_secret=d3888b30957285d9429eb2aff54f786101c5f45a&client_id=81985586e6b07c42ca38&code=${ code }` }>
                         Get Access Token
                     </a>
                     <input pattern="gho_[0-9a-zA-Z]{36}" placeholder='Put your access token'
